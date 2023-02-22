@@ -4,12 +4,12 @@ import "net/url"
 
 // Payload that will be send with different set of requests by the client.
 type Payload struct {
-	EmailAddress    string            `json:"email_address"`
-	Letter          string            `json:"letter"` // TODO Establish what this actually is and prepare for usage.
-	Personalisation map[string]string `json:"personalisation"`
-	PhoneNumber     string            `json:"phone_number"`
-	Reference       string            `json:"reference"`
-	TemplateID      string            `json:"template_id"`
+	EmailAddress    string            `json:"email_address,omitempty"`
+	Letter          string            `json:"letter,omitempty"` // TODO Establish what this actually is and prepare for usage.
+	Personalisation map[string]string `json:"personalisation,omitempty"`
+	PhoneNumber     string            `json:"phone_number,omitempty"`
+	Reference       string            `json:"reference,omitempty"`
+	TemplateID      string            `json:"template_id,omitempty"`
 }
 
 func (p *Payload) addIfNotEmpty(m *url.Values, key, value string) {

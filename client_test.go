@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"net/url"
 
-	httpmock "gopkg.in/jarcoal/httpmock.v1"
+	"github.com/jarcoal/httpmock"
 
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"

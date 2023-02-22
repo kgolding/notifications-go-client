@@ -43,10 +43,15 @@ func (c *Client) handleInvalidResponse(res *http.Response) error {
 			StatusCode: res.StatusCode,
 		}
 
-		err := jsonResponse(res.Body, &e.Errors)
+		var WrapErrors struct {
+			Errors []Error
+		}
+
+		err := jsonResponse(res.Body, &WrapErrors)
 		if err != nil {
 			return err
 		}
+		e.Errors = WrapErrors.Errors
 
 		return &e
 	}
@@ -101,6 +106,8 @@ func (c *Client) httpPost(path string, payload *Payload) (*http.Response, error)
 	if err != nil {
 		return nil, err
 	}
+
+	// fmt.Println("HTTP POST", u.String(), "\n", string(body))
 
 	return c.httpCall("POST", u.String(), &body)
 }
@@ -229,17 +236,17 @@ func (c *Client) SendSms(phoneNumber, templateID string, personalisation templat
 
 	res, err := c.httpPost(PathNotificationSendSms, payload)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("http post: %w", err)
 	}
 
 	err = c.handleInvalidResponse(res)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("invalid response: %w", err)
 	}
 
 	err = jsonResponse(res.Body, &apiResponse)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("json response: %w", err)
 	}
 
 	return &apiResponse, nil

@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/jarcoal/httpmock"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
-	httpmock "gopkg.in/jarcoal/httpmock.v1"
 )
 
 var _ = Describe("Notification", func() {
